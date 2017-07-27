@@ -1,6 +1,6 @@
-class Table
+class Dealer
   attr_reader :deck
-  attr_accessor :dealer, :player
+  attr_accessor :house, :player
 
   def initialize
     @deck = Deck.new
@@ -8,11 +8,11 @@ class Table
   end
 
   def deal
-    @dealer = Hand.new
+    @house = Hand.new
     @player = Hand.new
 
     2.times { @player.hit(deck) }
-    2.times { @dealer.hit(deck) }
+    2.times { @house.hit(deck) }
   end
 
   def status
@@ -27,10 +27,13 @@ class Table
     else
       table_status +=  "You currently hold a #{player.score}\n"
       table_status += "\n"
-      table_status +=  "Dealer is showing a #{dealer.cards[0].value} of #{dealer.cards[1].suit}s\n"
+      table_status +=  "Dealer is showing a #{house.cards[0].value} of #{house.cards[1].suit}s\n"
     end
     table_status
   end
+
+
+
   require 'pry'
   # binding.pry
 end

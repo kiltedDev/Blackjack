@@ -1,6 +1,8 @@
+require "colorize"
+
 class Deck
   VALUES = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"]
-  SUITS = ["♠", "♥", "♦", "♣"]
+  SUITS = ["♠".colorize(:light_black), "♥".colorize(:red), "♦".colorize(:red), "♣".colorize(:light_black)]
   attr_accessor :collection
 
   def initialize
@@ -11,6 +13,7 @@ class Deck
         @collection << Card.new(value, suit)
       end
     end
+    
     @collection.shuffle!
   end
 end
