@@ -18,16 +18,19 @@ class Dealer
   def status
     table_status = "You are holding:\n"
     @player.cards.each do |card|
-      table_status += "*#{card.value} of #{card.suit}s\n"
+      table_status += card.summary + "\n"
     end
     table_status += "\n"
-    if player.busted
+    if player.busted?
       table_status +=  "I am sorry, that's a bust.\n"
       table_status +=  "Unfortunately, you lose.\n"
+
+    elsif player.blackjack?
+      table_status += "Blackjack!  You win!"
     else
       table_status +=  "You currently hold a #{player.score}\n"
       table_status += "\n"
-      table_status +=  "Dealer is showing a #{house.cards[0].value} of #{house.cards[1].suit}s\n"
+      table_status +=  "Dealer is showing a #{house.cards[0].summary}\n"
     end
     table_status
   end

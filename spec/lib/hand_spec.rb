@@ -50,12 +50,33 @@ RSpec.describe Hand do
     end
   end
 
-  describe "#busted" do
+  describe "#blackjack?" do
+    it "knows if a hand scores blackjack" do
+      hand.cards << ace
+      hand.cards << face
+      expect(hand.blackjack?).to be(true)
+    end
+
+    it "knows if a hand doesn't score blackjack" do
+      hand.cards << ace
+      hand.cards << card10
+      expect(hand.blackjack?).to be(false)
+    end
+  end
+
+  describe "#busted?" do
     it "knows if a hand is busted" do
       hand.cards << card6
       hand.cards << card10
       hand.cards << face
-      expect(hand.busted).to be(true)
+      expect(hand.busted?).to be(true)
+    end
+
+    it "knows if a hand is busted" do
+      hand.cards << card6
+      hand.cards << card10
+      hand.cards << ace
+      expect(hand.busted?).to be(false)
     end
   end
 

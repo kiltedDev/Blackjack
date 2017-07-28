@@ -26,12 +26,21 @@ class Hand
     total
   end
 
-  def busted
-    if self.score > 21
-      return true
-    else
-      return false
+  def blackjack?
+    blackjack_score = 0
+    if @cards[0].type == "Ace" || @cards[1].type == "Ace"
+      blackjack_score +=1
     end
+
+    if @cards[0].type == "Face Card" || @cards[1].type == "Face Card"
+      blackjack_score += 1
+    end
+
+    blackjack_score == 2
+  end
+
+  def busted?
+    self.score > 21
   end
 
   def hit (deck)

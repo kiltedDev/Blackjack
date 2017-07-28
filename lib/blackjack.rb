@@ -16,38 +16,41 @@ class Game
   end
 
   def ask_player
-    puts "What would you like to do?"
-    print "Hit or Stand? (H or S)>  "
-    @action = gets.chomp.downcase
+    puts "What would you like to do?".colorize(:light_blue)
+    print "  Hit or Stand?>  ".colorize(:light_blue)
+    @action = gets.chomp.downcase.split("")[0]
   end
 
   def dealer_response
-    if @action == "s" || @action == "stand"
+    if @action == "s"
       puts "Player stands with a #{@player.score}."
-    elsif @action == "h" || @action == "hit" || @action == "hit me"
+    elsif @action == "h"
       puts "Player takes another card."
       @player.hit(@deck)
     end
   end
 
   def player_turn
-    while @action != "s" && @action != "stand" && @player.busted != true
+    while @action != "s" && !@player.busted? && !@player.blackjack?
       puts @dealer.status
       self.ask_player
       self.dealer_response
     end
 
-    if @player.busted == true
-      puts @dealer.status
+    if @player.blackjack?
+      puts "Blackjack!  You Win!"
+    end
+
+    if @player.busted?
       @point -= 1
     end
   end
 
   def dealer_turn
-    if @player.busted == false
+    if !@player.busted? && !@player.blackjack?
       until @house.score > 17
         @house.hit(@deck)
-        if @house.busted
+        if @house.busted?
           puts "House has busted.  Player wins."
         end
       end
@@ -55,13 +58,14 @@ class Game
   end
 
   def evaluate
-    if @player.busted == false && @player.score > @house.score
+    if !@player.busted?  && @player.score > @house.score
       puts "\n#{@player.score} to my #{@house.score} Victory."
-    elsif @player.busted == false && @house.busted == false
+    elsif !@player.busted? && !@house.busted?
       puts "\nApologies, my #{@house.score} beats your #{@player.score}"
       @point -= 1
     end
   end
+
 
   def play
     player_turn
@@ -79,9 +83,9 @@ while continue == "y"
   blackjack.play
   victories += blackjack.point
   games += 1
-  puts "\nWould you like to play again?"
-  print "[Y/N] > "
-  continue = gets.chomp.downcase
+  puts "\nWould you like to play again?".colorize(:light_blue)
+  print "  [Y/N] > ".colorize(:light_blue)
+  continue = gets.chomp.downcase.split("")[0]
 end
 
 puts "\nYou won #{victories} out of #{games} hands."

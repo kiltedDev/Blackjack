@@ -1,3 +1,5 @@
+require "colorize"
+
 class Card
   attr_reader :value, :suit
 
@@ -25,4 +27,19 @@ class Card
       11
     end
   end
+
+  def summary
+    card_face = "#{value} of #{suit}s"
+
+    if @suit == "♥" || @suit == "♦"
+      card_face = card_face.colorize(:red)
+    elsif @suit == "♣" || @suit == "♠"
+      card_face = card_face.colorize(:light_black)
+    end
+
+    card_face
+  end
 end
+
+
+["♠", "♥", "♦", "♣"]
